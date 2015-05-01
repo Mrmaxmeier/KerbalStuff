@@ -299,13 +299,17 @@ def mod_version(modid, version):
     return info
 
 @api.route("/api/user/<username>")
+@with_session
 @json_output
 def user(username):
     user = User.query.filter(User.username == username).first()
     if not user:
         return { 'error': True, 'reason': 'User not found.' }, 404
-    if not user.public:
+
+    # Allow access to your profile if its private.
+    if not user.public and current_user != user:
         return { 'error': True, 'reason': 'User not public.' }, 401
+
     mods = Mod.query.filter(Mod.user == user, Mod.published == True).order_by(
         Mod.created)
     info = user_info(user)
