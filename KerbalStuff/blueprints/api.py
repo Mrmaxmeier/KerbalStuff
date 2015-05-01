@@ -316,6 +316,13 @@ def user(username):
     info['mods'] = list()
     for m in mods:
         info['mods'].append(mod_info(m))
+
+    if current_user == user:
+        info["authenticated"] = True
+        info["following"] = list()
+        for m in user.following:
+            info["following"].append(mod_info(m))
+
     return info
 
 @api.route('/api/mod/<mod_id>/update-bg', methods=['POST'])
