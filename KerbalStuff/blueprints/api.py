@@ -308,19 +308,27 @@ def user(username):
     if not user:
         return { 'error': True, 'reason': 'User not found.' }, 404
 
-    # Allow access to your profile if its private.
-    if not user.public and current_user != user:
-        return { 'error': True, 'reason': 'User not public.' }, 401
+    if current_user:
+        authenticated = current_user == user or current_user.admin
+    else:
+        authenticated = False
 
-    mods = Mod.query.filter(Mod.user == user, Mod.published == True).order_by(
-        Mod.created)
+    # Allow access to your profile if its private.
+    if not user.public and not authenticated:
+        return { 'error': True, 'reason': 'You do not have permission to this private profile.' }, 400
+
+    # Allow access to your unpublished mods.
+    if not authenticated:
+        mods = Mod.query.filter(Mod.user == user, Mod.published == True).order_by(Mod.created)
+    else:
+        mods = Mod.query.filter(Mod.user == user).order_by(Mod.created)
     info = user_info(user)
     info['mods'] = list()
     for m in mods:
         info['mods'].append(mod_info(m))
 
-    if current_user == user:
-        info["authenticated"] = True
+    info["authenticated"] = authenticated
+    if authenticated:
         info["following"] = list()
         for m in user.following:
             info["following"].append(mod_info(m))
