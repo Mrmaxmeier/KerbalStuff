@@ -52,7 +52,9 @@ def mod_info(mod):
         "website": mod.external_link,
         "donations": mod.donation_link,
         "source_code": mod.source_link,
-        "url": url_for("mods.mod", id=mod.id, mod_name=mod.name)
+        "url": url_for("mods.mod", id=mod.id, mod_name=mod.name),
+        "ckan": mod.ckan,
+        "published": mod.published
     }
 
 def version_info(mod, version):
