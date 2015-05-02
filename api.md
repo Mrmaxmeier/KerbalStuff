@@ -107,7 +107,9 @@ Gets mods sorted by selected conditions
           "id": 52,
           "background": "...",
           "bg_offset_y": 1234,
-          "short_description": "..."
+          "short_description": "...",
+          "published": true,
+          "ckan": true
         },
         ...continued...
       ],
@@ -149,7 +151,9 @@ Gets the newest mods on the site.
         "id": 52,
         "background": "...",
         "bg_offset_y": 1234,
-        "short_description": "..."
+        "short_description": "...",
+        "published": true,
+        "ckan": true
       },
       ...continued...
     ]
@@ -188,7 +192,9 @@ Gets the latest featured mods on the site.
         "id": 52,
         "background": "...",
         "bg_offset_y": 1234,
-        "short_description": "..."
+        "short_description": "...",
+        "published": true,
+        "ckan": true
       },
       ...continued...
     ]
@@ -226,7 +232,9 @@ Gets the most popular mods on the site.
         "id": 52,
         "background": "...",
         "bg_offset_y": 1234,
-        "short_description": "..."
+        "short_description": "...",
+        "published": true,
+        "ckan": true
       },
       ...continued...
     ]
@@ -269,7 +277,9 @@ Searches the site for mods.
         "id": 52,
         "background": "...",
         "bg_offset_y": 1234,
-        "short_description": "..."
+        "short_description": "...",
+        "published": true,
+        "ckan": true
       }
     ]
 
@@ -303,6 +313,7 @@ Searches the site for public users.
 ## Users
 
 You can query the API for information on individual public users.
+You can also view your profile even if its private.
 
 **GET /api/user/&lt;username&gt;**
 
@@ -325,17 +336,70 @@ Returns information about a specific user.
           "author": "Xaiier",
           "default_version_id": 371,
           "id": 21,
-          "short_description": "..."
+          "short_description": "...",
+          "published": true,
+          "ckan": true
         }
       ],
       "redditUsername": null,
       "ircNick": "Xaiier",
       "description": "",
-      "forumUsername": "Xaiier"
+      "forumUsername": "Xaiier",
+      "authenticated": false
     }
 
-## Mods
+*Example Response if Authenticated*
 
+    {
+
+      "username": "Xaiier",
+      "twitterUsername": "",
+      "mods": [
+        {
+          "downloads": 332,
+          "name": "Time Control",
+          "followers": 19,
+          "author": "Xaiier",
+          "default_version_id": 371,
+          "id": 21,
+          "short_description": "...",
+          "published": true,
+          "ckan": true
+        },
+        {
+          "downloads": 332,
+
+          "name": "Unpublished Mod",
+          "followers": 19,
+          "author": "Xaiier",
+          "default_version_id": 371,
+          "id": 22,
+          "short_description": "...",
+          "published": false,
+          "ckan": true
+        }
+
+      ],
+      following: [
+        {
+          "downloads": 332,
+          "name": "Time Control",
+          "followers": 19,
+          "author": "Xaiier",
+          "default_version_id": 371,
+          "id": 21,
+          "short_description": "...",
+          "published": true,
+          "ckan": true
+        },
+      ]
+      "redditUsername": null,
+      "ircNick": "Xaiier",
+      "description": "",
+      "forumUsername": "Xaiier",
+      "authenticated": true
+    }
+## Mods
 You can query the API for information on a specific mod, a specific version, and
 so on. This could be useful, for example, to implement an update checker. You can
 also use the API to create new mods or update existing ones.
